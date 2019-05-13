@@ -10,6 +10,7 @@ const int motorRSpeed = 10;
 
 int direction;
 
+/*
 typedef struct {
 	unsigned int bit0:1;
 	unsigned int bitLeft:1;
@@ -27,11 +28,12 @@ union otherCreation {
 };
 
 otherCreation buttons;
-
+*/
+byte buttons = 0;
 void setup() {
 	Serial.begin(9600);
 	Serial3.begin(9600);
-	buttons.packet = 0;
+//	buttons.packet = 0;
 	pinMode(motorL1, OUTPUT);           // to make the Left motor an actuator.
 	pinMode(motorL2, OUTPUT);           // to make the Left motor an actuator.
 	pinMode(motorR1, OUTPUT);           // to make the Right motor an actuator.
@@ -40,17 +42,23 @@ void setup() {
 	pinMode(motorRSpeed, OUTPUT);           // to make the Right motor an actuator.
 }
 void loop() {
-	if (Serial.available()) {
-		delay(10);
-		int pass = 1;
+	int pass = 1;
+	if (Serial3.available()) {
+	// if (Serial.available()) {
+		delay(100);
 		while(pass) {
-			buttons.packet = Serial.read();
-			Serial3.println(buttons.packet);
-			if (buttons.bits.bit7 == 1) {
+			buttons = Serial3.read();
+			// buttons = Serial.read();
+			//Serial.println(buttons, BIN);
+			//buttons.packet = Serial.read();
+			//Serial3.println(buttons.packet);
+			if (bitRead(buttons, 0) == 1) {
+			//if (buttons.bits.bit7 == 1) {
 				pass = 0;
 			}
 		}
-
+	
+/*
 		if (buttons.bits.bitUp == 1){
 			Serial3.println("Forward");
 			// direction = 1;
@@ -81,8 +89,39 @@ void loop() {
 			Serial3.println("Stop");
 			stop();
 		}
-	//move();
+*/
+		if (bitRead(buttons, 1) == 1){
+			//Serial.println("Left");
+			// direction = 3;
+			turnLeft();					// to call the left function below.				
+		}
+		if (bitRead(buttons, 2) == 1){
+			//Serial.println("Right");
+			// direction = 4;
+			turnRight();				// to call the right function below.				
+		}
+		if (bitRead(buttons, 3) == 1){
+			//Serial.println("Forward");
+			// direction = 1;
+			moveForward();				// to call the forward function below.				
+		}
+		if (bitRead(buttons, 4) == 1){
+			//Serial.println("Reverse");
+			// direction = 2;
+			moveBackwards();			// to call the reverse function below.				
+		}
+		if (bitRead(buttons, 5) == 1){
+			// Serial.println("Button A");
+		}
+		if (bitRead(buttons, 6) == 1){
+			// Serial.println("Button B");
+		}
+		if ((bitRead(buttons, 1) == 0) && (bitRead(buttons, 2) == 0) && (bitRead(buttons, 3) == 0) && (bitRead(buttons, 4) == 0)){
+			//Serial.println("Stop");
+			stop();
+		}
 	}
+	//move();
 }
 /*
 void move(){
