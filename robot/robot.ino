@@ -31,8 +31,8 @@ otherCreation buttons;
 */
 byte buttons = 0;
 void setup() {
-	Serial.begin(9600);
-	Serial3.begin(9600);
+	//Serial.begin(9600);
+	Serial3.begin(115200);
 //	buttons.packet = 0;
 	pinMode(motorL1, OUTPUT);           // to make the Left motor an actuator.
 	pinMode(motorL2, OUTPUT);           // to make the Left motor an actuator.
@@ -206,5 +206,5 @@ void stop() {
 	digitalWrite(motorR2, LOW);
 	digitalWrite(motorLSpeed, LOW);
 	digitalWrite(motorRSpeed, LOW);
-	delay(500);
+	//delay(500);
 }

@@ -29,7 +29,7 @@ byte buttons = 0;
 int btnLeftLast = 0, btnRightLast = 0, btnUpLast = 0, btnDownLast = 0, btnALast = 0, btnBLast = 0;
 
 void setup() {
-	Serial.begin(9600); // Bluetooth baud rate
+	Serial.begin(115200); // Bluetooth baud rate
 	// buttons.bits.bit7 = 1;
 	bitWrite(buttons, 0, 1);
 	pinMode(btnLeft,INPUT);
